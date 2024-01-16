@@ -61,3 +61,15 @@ for i in range(len(day_list)):
     git_list.append((day_list[i],weather_list[i],bmr_list[i]))
 
 formatted_data_list = [(item[0], *item[1], item[2]) for item in git_list]
+
+#データベース構築
+
+import sqlite3
+!pwd
+
+#ファイルパス
+path ='last.py'
+
+db_name = 'last.sqlite'
+con = sqlite3.connect(path + db_name)
+con.close()
