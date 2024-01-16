@@ -73,3 +73,14 @@ path ='last.py'
 db_name = 'last.sqlite'
 con = sqlite3.connect(path + db_name)
 con.close()
+
+# テーブルを作成
+con = sqlite3.connect(path + db_name)
+
+cur = con.cursor()
+
+sql_create_table_gits = 'CREATE TABLE bmr(day int, avg_gr_hpa int, avg_sea_hpa int, low_sea_hpa int, avg_temp int, high_temp int, low_temp int, vp, avg_hum int, low_hum, bmr int);'
+
+cur.execute(sql_create_table_gits)
+
+con.close()
