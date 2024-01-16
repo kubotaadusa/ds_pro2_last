@@ -3,7 +3,8 @@ import requests
 import time
 
 # スマホデータ
-bmr_list=[1494,1460,1462,1455,1476,1475,1466,1482,1463,1485,1462,1472,1355,1270,1277,1289,1274,1268,1276,1274,1272,1282,1271,1274,1288,1272,1276,1274,1269,1268,1268]
+bmr_list = ['1494', '1460', '1462', '1455', '1476', '1475', '1466', '1482', '1463', '1485', '1462', '1472', '1355', '1270', '1277', '1289', '1274', '1268', '1276', '1274', '1272', '1282', '1271', '1274', '1288', '1272', '1276', '1274', '1269', '1268', '1268']
+bmr_list = [int(value) for value in bmr_list]
 
 # HTML全体を取得
 url='https://www.data.jma.go.jp/obd/stats/etrn/view/daily_s1.php?prec_no=44&block_no=47662&year=2022&month=12&day=&view=a2'
@@ -15,34 +16,48 @@ for i in url:
 html_soup = BeautifulSoup(r.content, 'html.parser')
 list = html_soup.find_all('div', itemprop="owns")
 
-# リスト作成
+# 日にち
 day_list=[]
-avg_list=[]
-high_list=[]
-low_list=[]
 
-for i, element in enumerate(list):
-    # 日にち
-    day=element.find('a')
-    day_text = day.get_text(strip=True)
-    day_list.append(day_text)
+day_tags=soup.find_all('a')
+day_list=[x.string for x in day_tags]
 
-    #  平均
-    avg=element.find('td',class_="data_0_0")
-    avg_text = avg.get_text(strip=True)
-    avg_list.append(avg_text)
+del day_list[:25]
+del day_list[31:]
+day_list = [int(day) for day in day_list]
 
-    #  最高
-    high=element.find('a',class_="Link d-inline-block")
-    high_text = high.get_text(strip=True)
-    high_list.append(high_text)
+#  スクレイピングデータ
+weather_list_proto=[]
 
-    #  最低
-    low=element.find('a',class_="Link d-inline-block")
-    low_text = low.get_text(strip=True)
-    low_list.append(low_text)
+weather_tags=soup.find_all('td',class_='data_0_0')
+weather_list_proto=[x.string for x in weather_tags]
+
+weather_list_proto2= [item for item in weather_list_proto if '--' not in item and ':' not in item]
+
+for _ in range(7):
+    weather_list_proto2.remove('0.0')
+
+for _ in range(8):
+    weather_list_proto2.remove('0.5')
+
+weather_list_proto2.remove('15.5')
+
+del weather_list_proto2[48]
+del weather_list_proto2[102]
+del weather_list_proto2[102]
+del weather_list_proto2[129]
+del weather_list_proto2[273]
+del weather_list_proto2[273]
+
+weather_list_proto2 = [float(weather) for weather in weather_list_proto2]
+
+weather_list = [weather_list_proto2[i:i+9] for i in range(0, len(weather_list_proto2), 9)]
+
+# まとめリスト作成
 
 git_list=[]
 
 for i in range(len(day_list)):
-    git_list.append((day_list[i],avg_list[i],high_list[i],low_list[i],bmr_list[i]))
+    git_list.append((day_list[i],weather_list[i],bmr_list[i]))
+
+formatted_data_list = [(item[0], *item[1], item[2]) for item in git_list]
