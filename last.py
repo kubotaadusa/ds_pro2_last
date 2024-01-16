@@ -13,8 +13,8 @@ for i in url:
     time.sleep(1)
 
 # いい感じに変換
-html_soup = BeautifulSoup(r.content, 'html.parser')
-list = html_soup.find_all('div', itemprop="owns")
+soup = BeautifulSoup(r.content, 'html.parser')
+list = soup.find_all('div', itemprop="owns")
 
 # 日にち
 day_list=[]
@@ -65,7 +65,6 @@ bmrs_data_list = [(item[0], *item[1], item[2]) for item in git_list]
 #データベース構築
 
 import sqlite3
-!pwd
 
 #ファイルパス
 path ='last.py'
@@ -95,7 +94,7 @@ sql_select = 'SELECT * FROM bmr;'
 cur.execute(sql_select)
 
 for r in cur:
-  print(r)
+    print(r)
 
 con.close()
 
