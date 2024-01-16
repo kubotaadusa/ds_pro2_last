@@ -7,7 +7,7 @@ bmr_list = ['1494', '1460', '1462', '1455', '1476', '1475', '1466', '1482', '146
 bmr_list = [int(value) for value in bmr_list]
 
 # HTML全体を取得
-url='https://www.data.jma.go.jp/obd/stats/etrn/view/daily_s1.php?prec_no=44&block_no=47662&year=2022&month=12&day=&view=a2'
+url='https://www.data.jma.go.jp/obd/stats/etrn/view/daily_s1.php?prec_no=44&block_no=47662&year=2023&month=12&day=&view=a2'
 for i in url:
     r=requests.get(url)#取得
     time.sleep(1)
@@ -24,6 +24,8 @@ day_list=[x.string for x in day_tags]
 
 del day_list[:25]
 del day_list[31:]
+
+print(day_list)
 day_list = [int(day) for day in day_list]
 
 #  スクレイピングデータ
