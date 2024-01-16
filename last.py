@@ -113,3 +113,17 @@ cur.executemany(sql_insert_many, bmrs_data_list)
 con.commit()
 
 con.close()
+
+#データ更新
+con = sqlite3.connect(path + db_name)
+
+cur = con.cursor()
+
+sql_select = 'SELECT * FROM bmr;'
+
+cur.execute(sql_select)
+
+for r in cur:
+    print(r)
+
+con.close()
