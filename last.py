@@ -71,10 +71,8 @@ path ='last.py'
 
 db_name = 'last.sqlite'
 con = sqlite3.connect(path + db_name)
-con.close()
 
 # テーブルを作成
-con = sqlite3.connect(path + db_name)
 
 cur = con.cursor()
 
@@ -82,10 +80,8 @@ sql_create_table_gits = 'CREATE TABLE bmr(day int, avg_gr_hpa int, avg_sea_hpa i
 
 cur.execute(sql_create_table_gits)
 
-con.close()
 
 # データ参照
-con = sqlite3.connect(path + db_name)
 
 cur = con.cursor()
 
@@ -96,10 +92,8 @@ cur.execute(sql_select)
 for r in cur:
     print(r)
 
-con.close()
 
 # 複数レコード挿入
-con = sqlite3.connect(path + db_name)
 
 cur = con.cursor()
 
@@ -111,10 +105,8 @@ cur.executemany(sql_insert_many, bmrs_data_list)
 
 con.commit()
 
-con.close()
 
 #データ更新
-con = sqlite3.connect(path + db_name)
 
 cur = con.cursor()
 
